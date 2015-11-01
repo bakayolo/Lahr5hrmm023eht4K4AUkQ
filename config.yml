@@ -1,0 +1,13 @@
+beanstalk:
+    host: 192.168.36.128
+    port: 11300
+    tube: bappr
+mongo:
+    host: mongodb://192.168.36.128:27017/aftersheep
+job:
+    fail:
+        timeout: 3
+        count: 3
+    success:
+        timeout: 60
+        count: 10
