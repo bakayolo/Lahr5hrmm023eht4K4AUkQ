@@ -1,9 +1,9 @@
 var yaml = require('yamljs');
 var http = require('http');
-var Mongo = require('./mongo');
-var Beanstalk = require('./beanstalk');
-var Request = require('./request');
-var XMLParser = require('./xml_parser');
+var Mongo = require('./utils/mongo');
+var Beanstalk = require('./utils/beanstalk');
+var Request = require('./utils/request');
+var XMLParser = require('./utils/xml_parser');
 
 var config = yaml.load('config.yml');
 
@@ -30,8 +30,9 @@ function processJob() {
 					xmlParserClient.parse(body, function(result) {
 						try {
 							doc.rate = result.query.results[0].rate[0].Rate[0];
-							doc.rate = (Math.round(doc.rate * 100) / 100).toString();
+							doc.rate = Math.round(doc.rate * 100) / 100;
 							doc.status = doc.rate?"success":"fail";
+							doc.rate = doc.rate.toString();
 						} catch (exception) {
 							doc.status = "fail";
 						}

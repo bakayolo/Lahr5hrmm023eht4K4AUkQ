@@ -50,17 +50,6 @@ Beanstalk.prototype.releaseJob = function(jobid, priority, delay, callback) {
 	});
 }
 
-Beanstalk.prototype.buryJob = function(jobid, priority, callback) {
-	console.log("Beanstalk : Bury the job " + jobid + " with priority " + priority);
-	this.beanstalkClient.bury(jobid, priority, function(err) {
-		assert.equal(null, err);
-
-		if (callback) {
-			callback();
-		}
-	});
-}
-
 Beanstalk.prototype.putJobToTube = function(tube, job, priority, delay, ttr, callback) {
 	this.beanstalkClient.use(tube, (function(err, jobname) {
 		assert.equal(null, err);
@@ -87,17 +76,6 @@ Beanstalk.prototype.destroyJob = function(jobid, callback) {
 		}
 	});
 }
-
-Beanstalk.prototype.pauseTube = function(tube, delay, callback) {
-	this.beanstalkClient.pause_tube(tube, delay, function(err){
-		assert.equal(null, err);
-		console.log("Beanstalk : Tube [" + tube + "] waiting for " + delay);
-
-		if (callback) {
-			callback();
-		}
-	});
-};
 
 Beanstalk.prototype.end = function() {
 	this.beanstalkClient.end();

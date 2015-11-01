@@ -23,7 +23,7 @@ Mongo.prototype.count = co.wrap(function* (collectionName, query) {
 	} else {
 		count = yield collection.count();
 	}
-	console.log('MongoDB : ' + count + ' document(s) in ' + collectionName + ' for query ' + query);
+	console.log('MongoDB : ' + count + ' document(s) in ' + collectionName + ' for query ' + JSON.stringify(query));
 	return count;
 });
 

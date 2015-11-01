@@ -1,5 +1,5 @@
 var yaml = require('yamljs');
-var Mongo = require('./mongo');
+var Mongo = require('./utils/mongo');
 
 var config = yaml.load('config.yml');
 

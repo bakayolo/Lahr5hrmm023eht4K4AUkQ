@@ -1,5 +1,5 @@
 var yaml = require('yamljs');
-var Beanstalk = require('./beanstalk');
+var Beanstalk = require('./utils/beanstalk');
 
 var config = yaml.load('config.yml');
 
