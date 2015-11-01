@@ -1,12 +1,23 @@
 var yaml = require('yamljs');
-var assert = require('assert');
-var http = require('http');
 var Mongo = require('./mongo');
-var Beanstalk = require('./beanstalk');
-var Request = require('./request');
-var XMLParser = require('./xml_parser');
 
 var config = yaml.load('config.yml');
 
-var beanstalkClient = new Beanstalk(config.beanstalk.host, config.beanstalk.port);
 var mongoClient = new Mongo();
+
+var collection = 'rates';
+
+mongoClient.connect(config.mongo.host).then(function() {
+	mongoClient.drop(collection).then(function() {
+		mongoClient.createIndex(collection, {jobid: 1, status: 1}, {}).then(function() {
+			mongoClient.close();
+			console.log("Initialization done");
+		}, function (err) {
+			console.error(err.stack);
+		});
+	}, function (err) {
+		console.error(err.stack);
+	});
+}, function (err) {
+	console.error(err.stack);
+});

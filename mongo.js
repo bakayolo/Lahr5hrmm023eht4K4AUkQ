@@ -9,6 +9,12 @@ Mongo.prototype.connect = co.wrap(function* (host) {
 	this.db = yield mongodb.MongoClient.connect(host);
 });
 
+Mongo.prototype.createIndex = co.wrap(function* (collectionName, index, options) {
+	var collection = this.db.collection(collectionName);
+	yield collection.createIndex(index, options);
+	console.log('MongoDB : Index created on ' + JSON.stringify(index) + ' with ' + JSON.stringify(options));
+});
+
 Mongo.prototype.count = co.wrap(function* (collectionName, query) {
 	var collection = this.db.collection(collectionName);
 	var count = null;
@@ -33,10 +39,10 @@ Mongo.prototype.removeAll = co.wrap(function* (collectionName) {
 	console.log('MongoDB : Remove all documents from ' + collectionName);
 });
 
-Mongo.prototype.removeAll = co.wrap(function* (collectionName) {
+Mongo.prototype.drop = co.wrap(function* (collectionName) {
 	var collection = this.db.collection(collectionName);
-	yield collection.removeMany();
-	console.log('MongoDB : Remove all documents from ' + collectionName);
+	yield collection.drop();
+	console.log('MongoDB : Collection ' + collectionName + ' dropped');
 });
 
 Mongo.prototype.close = function() {
